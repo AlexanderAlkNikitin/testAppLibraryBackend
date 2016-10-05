@@ -67,6 +67,6 @@
 
     <filter-mapping>
         <filter-name>authenticationTokenFilter</filter-name>
-        <url-pattern>/books</url-pattern>
+        <url-pattern>/books/*</url-pattern>
     </filter-mapping>
 </web-app>
