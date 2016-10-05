@@ -5,6 +5,9 @@ package com.anikitin.library.security.filter;
 
 import com.anikitin.library.security.AppConstant;
 import com.anikitin.library.security.TokenUtils;
+import com.anikitin.library.security.controller.AuthenticationController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
-
+    private static final Logger logger = LoggerFactory
+            .getLogger(AuthenticationTokenFilter.class);
     @Autowired
     private TokenUtils tokenUtils;
 
@@ -45,10 +49,11 @@ public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFil
         resp.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE, PATCH");
         resp.setHeader("Access-Control-Max-Age", "3600");
         resp.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, " + AppConstant.tokenHeader);
-
+        logger.info("AuthenticationTokenFilter create headers");
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String authToken = httpRequest.getHeader(AppConstant.tokenHeader);
+        logger.info("AuthenticationTokenFilter get token from request");
         String username = this.tokenUtils.getUsernameFromToken(authToken);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
