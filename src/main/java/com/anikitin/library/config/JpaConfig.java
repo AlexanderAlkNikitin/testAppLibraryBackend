@@ -1,5 +1,6 @@
 package com.anikitin.library.config;
 
+import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -28,6 +29,7 @@ public class JpaConfig {
         bean.setPackagesToScan(new String[]{"com.anikitin.library.model"});
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         bean.setJpaVendorAdapter(vendorAdapter);
+        bean.setPersistenceProvider(new HibernatePersistence());
         bean.setJpaProperties(getProperties());
         return bean;
     }
